@@ -23,11 +23,6 @@
     dms
     fuzzel
 
-    # 输入法
-    fcitx5
-    fcitx5-gtk
-    fcitx5-configtool
-    fcitx5-chinese-addons
 
     # 常用 GUI
     alacritty
@@ -68,16 +63,8 @@
   ############################################
   # 环境变量（Wayland / 输入法）
   ############################################
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
 
-    XMODIFIERS = "@im=fcitx";
-    GTK_IM_MODULE = "fcitx";
-    QT_IM_MODULE = "fcitx";
-    SDL_IM_MODULE = "fcitx";
-  };
-
+  
   ############################################
   # Home Manager 自身
   ############################################
@@ -96,5 +83,26 @@
   ##  脚本
   ".local/bin/start-dms".source = ../dotfiles/local_script/start-dms;
   ".local/bin/start-dms".executable = true;
-};
+  ##  快捷方式
+  ".local/share/applications/brave-wayland.desktop".source = ../dotfiles/local_script/brave2.desktop;
+  };
+
+
+
+  systemd.user.services.fcitx5 = {
+    Unit = {
+      Description = "Fcitx5 input method";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+
+    Service = {
+      ExecStart = "${pkgs.fcitx5}/bin/fcitx5 -d --wayland";
+      Restart = "on-failure";
+    };
+
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
 }

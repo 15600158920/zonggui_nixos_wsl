@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Brave (Wayland)
+Exec=brave --ozone-platform=wayland
+Type=Application
+Categories=Network;WebBrowser;

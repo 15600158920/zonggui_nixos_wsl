@@ -62,6 +62,7 @@
     jq
     python313
     fontconfig
+
   ];
 
   ### =========================
@@ -89,16 +90,32 @@
   };
 
   ### =========================
-  ### 输入法（system）
+  ### 输入法（system）home 级无法使用
   ### =========================
+
   i18n.inputMethod = {
-    enable = true;
-    type = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-rime
-      fcitx5-configtool
-      fcitx5-chinese-addons
-    ];
+    enabled = "fcitx5";
+
+    fcitx5 = {
+      addons = with pkgs; [
+        fcitx5-rime
+        fcitx5-configtool
+        fcitx5-chinese-addons
+      ];
+    };
+  };
+
+  
+  environment.sessionVariables = {
+    GTK_IM_MODULE = "fcitx";
+    QT_IM_MODULE  = "fcitx";
+    XMODIFIERS    = "@im=fcitx";
+
+    SDL_IM_MODULE = "fcitx";
+    GLFW_IM_MODULE = "fcitx";
+
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   };
 
   ### =========================
