@@ -42,6 +42,16 @@
   ### =========================
   ### 用户
   ### =========================
+services.openssh = {
+    enable = true;
+
+    # 允许密码认证
+    settings = {
+      PasswordAuthentication = true;
+      PermitRootLogin = "yes";  # 如果允许 root 登录
+    };
+  };
+
   users.users.zonggui = {
     isNormalUser = true;
     description = "zonggui";
